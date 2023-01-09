@@ -1,27 +1,52 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <main>
+    <RatingComponent v-if="activeComponent" @showComponent="handleState"/>
+    <SubmitState v-else :rating="rating"/>
+  </main>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+
+import { defineComponent, ref} from 'vue';
+import RatingComponent from './components/RatingComponent.vue'
+import SubmitState from './components/SubmitState.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
-    HelloWorld
+    RatingComponent,
+    SubmitState
+  },
+  setup(){
+    let activeComponent = ref('true')
+    let rating = ref('0')
+
+    const handleState = (data:string) => {
+      activeComponent.value = data[0]
+      rating.value =  data[1]
+      console.log(activeComponent.value)
+    } 
+
+    console.log(rating.value)
+    return{ activeComponent, handleState, rating }
   }
 });
+
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+body {
+  background-color: hsl(216, 12%, 8%);
+  font-size: 15px;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+	height: 100vh;
+	display: flex;
+
+	align-items: center;
+	justify-content: center;
 }
 </style>
